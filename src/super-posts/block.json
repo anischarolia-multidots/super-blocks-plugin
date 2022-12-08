@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "super-posts/super-blocks",
+	"version": "0.1.0",
+	"title": "Super Posts Block",
+	"category": "theme",
+	"icon": "smiley",
+	"description": "Example block scaffolded with Create Block tool.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "super-blocks",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"attributes": {
+		"postType": {
+			"type": "string",
+			"default": ""
+		},
+		"order": {
+			"type": "string",
+			"default": ""
+		},
+		"orderBy": {
+			"type": "string",
+			"default": ""
+		},
+		"postNum": {
+			"type": "number",
+			"default": 5
+		},
+		"showExcerpt": {
+			"type": "boolean",
+			"default": true
+		},
+		"showButton": {
+			"type": "boolean",
+			"default": true
+		},
+		"bgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"textColor": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "row"
+		},
+		"showImage": {
+			"type": "boolean",
+			"default": "true"
+		},
+		"headingTag": {
+			"type": "string",
+			"default": "h3"
+		}
+	}
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "terms/super-blocks",
+  "version": "0.1.0",
+  "title": "Super Terms Block",
+  "category": "theme",
+  "icon": "smiley",
+  "description": "Example block scaffolded with Create Block tool.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "super-blocks",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "attributes": {
+    "taxname": {
+      "type": "string",
+      "default": ""
+    },
+    "terms": {
+      "type": "array",
+      "default": []
+    },
+    "update": {
+      "type": "boolean",
+      "default": false
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "showHeading": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

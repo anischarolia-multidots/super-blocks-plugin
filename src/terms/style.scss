@@ -1,0 +1,36 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-super-dsb {
+	padding: 2px;
+}
+
+.super-block.terms {
+	list-style-type: none;
+	box-sizing: border-box;
+}
+
+.super-block.terms * {
+	box-sizing: border-box;
+}
+
+ul.super-block.terms {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+	li {
+		margin: 10px 0;
+		a {
+			width: 100%;
+			display: inline-block;
+			background-color: #ebe0ff;		
+			padding: 5px 10px;
+			text-decoration: none;
+			text-transform: capitalize;
+		}
+	}
+}

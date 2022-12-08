@@ -1,0 +1,23 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-super-dsb {
+	border: 1px dotted #f00;
+}
+
+.dsb-terms-checkbox-wrap {
+    max-height: 170px;
+    overflow: auto;
+
+	.components-base-control {
+		margin-bottom: 15px;
+	}
+}
+.wp-block-terms-super-blocks {
+	.super-block-terms-heading {
+		margin: 0 0 15px;
+	}
+}

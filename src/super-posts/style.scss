@@ -1,0 +1,49 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-super-dsb {
+	padding: 2px;
+}
+
+.super-posts-block-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 10px
+}
+.super-posts-block-list img {
+	max-width: 100%;
+}
+.super-posts-block-list {
+	h1,	h2,	h3,	h4,	h5,	h6 {
+		margin: 0 0 15px
+	}
+} 
+
+.super-posts-block-list .view-button {
+	border: 1px solid #000;
+	display: inline-block;
+	font-size: 16px;
+	padding: 3px 10px;
+	text-decoration: none
+}
+
+.super-posts-block-list li:not(:last-child) {
+	border-bottom: 1px solid #000;
+	margin-bottom: 20px;
+	padding-bottom: 20px
+}
+ul.super-posts-block-list.layout-column {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+ul.super-posts-block-list.layout-column li {
+    width: 50%;
+    padding: 20px 11px;
+    margin: 0;
+    box-sizing: border-box;
+}

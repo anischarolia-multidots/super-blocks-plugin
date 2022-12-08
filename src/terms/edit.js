@@ -5,7 +5,6 @@
  */
 import { __ } from "@wordpress/i18n";
 
-import { useEffect } from "react";
 /**
  * React hook that is used to mark the block wrapper element.
  * It provides all the necessary props like the class name.
@@ -43,7 +42,6 @@ export default function Edit(props) {
 	const {
 		attributes: { taxname, terms, update, heading, showHeading },
 		setAttributes,
-		className,
 	} = props;
 
 	let newArray = terms;
@@ -146,7 +144,13 @@ export default function Edit(props) {
 			<div {...blockProps}>
 				<ServerSideRender
 					block="terms/super-blocks"
-					attributes={{ taxname: taxname, terms: terms, update: update, heading: heading, showHeading: showHeading }}
+					attributes={{
+						taxname: taxname,
+						terms: terms,
+						update: update,
+						heading: heading,
+						showHeading: showHeading
+					}}
 				/>
 			</div>
 		</>

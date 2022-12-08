@@ -38,7 +38,19 @@ export default function Edit(props) {
 
 
 	const {
-		attributes: { postType, orderBy, order, postNum, showExcerpt, bgColor, textColor, showButton, layout, showImage, headingTag },
+		attributes: {
+			postType,
+			orderBy,
+			order,
+			postNum,
+			showExcerpt,
+			bgColor,
+			textColor,
+			showButton,
+			layout,
+			showImage,
+			headingTag
+		},
 		setAttributes,
 		className,
 	} = props;

@@ -27,15 +27,10 @@ function terms_block_init() {
 }
 add_action( 'init', 'terms_block_init' );
 
-function super_block_render_content($attr) {
-
-	$postTytpes = get_post_types([], 'names');
-	
-	$siteUrl = get_site_url();
+function super_block_render_content($attr) {	
 	
 	$tax_name = $attr['taxname'];
 	$showHeading = $attr['showHeading'];
-
 	$termslist = $attr['terms'];
 	
 	if( ! empty($termslist)) {

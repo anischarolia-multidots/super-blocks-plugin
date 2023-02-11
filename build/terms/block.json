@@ -35,6 +35,18 @@
     "showHeading": {
       "type": "boolean",
       "default": false
+    },
+    "showImage": {
+      "type": "boolean",
+      "default": false
+    },
+    "styleName": {
+      "type": "string",
+      "default": ""
+    },
+    "viewAllLink": {
+      "type": "string",
+      "default": ""
     }
   }
 }

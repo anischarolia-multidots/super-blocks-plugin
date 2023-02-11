@@ -21,3 +21,20 @@
 		margin: 0 0 15px;
 	}
 }
+
+
+.style-author ul.super-block.terms {
+	display: flex;
+    flex-wrap: nowrap;
+    overflow: auto;
+	li {
+		width: 20%;
+		padding: 0 10px;
+		flex-shrink: 0;
+
+		figure img {
+			height: 120px;
+			width: 120px;
+		}
+	}
+}

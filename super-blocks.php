@@ -22,16 +22,19 @@
  */
 function terms_block_init() {
 	register_block_type( __DIR__ . '/build/terms', array(
-		'render_callback' => 'super_block_render_content',		
+		'render_callback' => 'super_terms_block_render_content',		
 	) );
 }
 add_action( 'init', 'terms_block_init' );
 
-function super_block_render_content($attr) {	
+function super_terms_block_render_content($attr) {	
 	
-	$tax_name = $attr['taxname'];
+	$tax_name =    $attr['taxname'];
 	$showHeading = $attr['showHeading'];
-	$termslist = $attr['terms'];
+	$termslist =   $attr['terms'];
+	$showImage =   $attr['showImage'];
+	$styleName =   $attr['styleName'];
+	$viewAllLink = $attr['viewAllLink'];
 	
 	if( ! empty($termslist)) {
 		$terms = get_terms($tax_name, array(
@@ -42,20 +45,34 @@ function super_block_render_content($attr) {
 	$finalData = array();
 	
 	foreach ( $terms as $index =>  $p ){
+		$image = get_field('author_image', $attr['taxname'] . '_' . $p->term_id);
+		if(empty($image)) {
+			$image = plugin_dir_url( __FILE__ ) . '/img/noimage_person.png';	
+		}
 		$finalData[$index]['slug'] = $p->slug;
 		$finalData[$index]['name'] = $p->name;
+		$finalData[$index]['image'] = $image;
 	}
 
 	if( ! empty( $finalData ) ){
-		$output = "";
+		$output = '<div class="super-terms-wrap '. $styleName .'"><div class="title-section">';
+
 		if ($showHeading){
 			$output .= '<h2 class="super-block-terms-heading">'.$attr['heading'].'</h2>';
-		}		
+		}
+		if ($viewAllLink){
+			$output .= '<a href="'. $viewAllLink .'" class="view-all-link">View All</a>';
+		}
+		$output .= '</div>';
 		$output .= '<ul class="super-block terms">';
 		foreach ( $finalData as $p ){			
-			$output .= '<li class="term-item"><a href="'. get_term_link( $p['slug'], $tax_name ).'">' .  $p['name'] . '</a></li>';
+			$output .= '<li class="term-item">';
+			if($showImage){
+				$output .= '<figure class="author-image"><a href="'. get_term_link( $p['slug'], $tax_name ).'"><img src="'. $p['image'] .'"></a></figure>';
+			}			
+			$output .= '<a href="'. get_term_link( $p['slug'], $tax_name ).'">' .  $p['name'] . '</a></img>';
 		}
-		$output .= '</ul>';
+		$output .= '</ul></div>';
 	}
 	return $output ?? "<h3>Select Terms to populate</h3>";
 }

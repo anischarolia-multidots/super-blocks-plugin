@@ -22,7 +22,13 @@ import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 import "./editor.scss";
 import { useSelect } from "@wordpress/data";
 import ServerSideRender from "@wordpress/server-side-render";
-import { SelectControl, CheckboxControl, PanelBody, TextControl, ToggleControl } from "@wordpress/components";
+import {
+  SelectControl,
+  CheckboxControl,
+  PanelBody,
+  TextControl,
+  ToggleControl,
+} from "@wordpress/components";
 import { useState } from "@wordpress/element";
 
 /**
@@ -34,125 +40,157 @@ import { useState } from "@wordpress/element";
  * @return {WPElement} Element to render.
  */
 export default function Edit(props) {
-	const blockProps = useBlockProps();
+  const blockProps = useBlockProps();
 
-	const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState("");
 
+  const {
+    attributes: {
+      taxname,
+      terms,
+      update,
+      heading,
+      showHeading,
+      showImage,
+      styleName,
+      viewAllLink,
+    },
+    setAttributes,
+  } = props;
 
-	const {
-		attributes: { taxname, terms, update, heading, showHeading },
-		setAttributes,
-	} = props;
+  let newArray = terms;
 
-	let newArray = terms;
+  const onChangeTax = (newContent) => {
+    terms.splice(0, terms.length);
+    setAttributes({ taxname: newContent });
+  };
 
-	const onChangeTax = (newContent) => {
-		terms.splice(0, terms.length);
-		setAttributes({ taxname: newContent });
-	};
+  const onChangeTerms = (newArray) => {
+    setAttributes({ terms: newArray });
+  };
 
-	const onChangeTerms = (newArray) => {
-		setAttributes({ terms: newArray });
-	};
+  const termList = useSelect(
+    (select) => {
+      return select("core").getEntityRecords("taxonomy", taxname, {
+        per_page: 100,
+        hide_empty: true,
+      });
+    },
+    [taxname]
+  );
 
-	const termList = useSelect(
-		(select) => {
-			return select("core").getEntityRecords("taxonomy", taxname, {
-				per_page: 100,
-				hide_empty: true,
-			});
-		},
-		[taxname]
-	);
+  const checkIfchecked = (id) => {
+    if (terms.includes(id)) {
+      return true;
+    }
+    return false;
+  };
 
-	const checkIfchecked = (id) => {
-		if (terms.includes(id)) {
-			return true;
-		}
-		return false
-	};
+  const addTerm = (id) => {
+    if (newArray.includes(id)) {
+      const index = newArray.indexOf(id);
+      if (index > -1) {
+        // only splice array when item is found
+        newArray.splice(index, 1); // 2nd parameter means remove one item only
+      }
+    } else {
+      newArray = newArray.concat(id);
+    }
+    onChangeTerms(newArray);
+    checkIfchecked(id);
+  };
 
-	const addTerm = (id) => {
-		if (newArray.includes(id)) {
-			const index = newArray.indexOf(id);
-			if (index > -1) {
-				// only splice array when item is found
-				newArray.splice(index, 1); // 2nd parameter means remove one item only
-			}
+  return (
+    <>
+      <InspectorControls key="setting">
+        <PanelBody title="Terms Settings" initialOpen={true}>
+          <ToggleControl
+            label="Show Heading"
+            help={showHeading ? "Button Visible." : "Button Hidden."}
+            checked={showHeading}
+            onChange={() => setAttributes({ showHeading: !showHeading })}
+          />
+          {showHeading && (
+            <TextControl
+              label="Add Heading Text"
+              value={heading}
+              onChange={(newHeadingText) =>
+                setAttributes({ heading: newHeadingText })
+              }
+            />
+          )}
 
-		} else {
-			newArray = newArray.concat(id);
-		}
-		onChangeTerms(newArray);
-		checkIfchecked(id);
+          <TextControl
+            label="View All Link"
+            value={viewAllLink}
+            onChange={(newLink) => setAttributes({ viewAllLink: newLink })}
+          />
 
-	};
+          <ToggleControl
+            label="Show Image"
+            help={showImage ? "Image Visible." : "Image Hidden."}
+            checked={showImage}
+            onChange={() => setAttributes({ showImage: !showImage })}
+          />
 
-	return (
-		<>
-			<InspectorControls key="setting">
-				<PanelBody title="Terms Settings" initialOpen={true}>
-					<ToggleControl
-						label="Show Heading"
-						help={
-							showHeading
-								? 'Button Visible.'
-								: 'Button Hidden.'
-						}
-						checked={showHeading}
-						onChange={() => setAttributes({ showHeading: !showHeading })}
-					/>
-					{showHeading && (
-						<TextControl
-							label="Add Heading Text"
-							value={heading}
-							onChange={(newHeadingText) => setAttributes({ heading: newHeadingText })}
-						/>
-					)}
-					<SelectControl
-						label="Taxonomy Name"
-						value={taxname}
-						options={[
-							{ label: "Select Taxonomy", value: "" },
-							{ label: "Category", value: "category" },
-						]}
-						onChange={onChangeTax}
-					/>
+          <SelectControl
+            label="Select Style"
+            value={styleName}
+            options={[
+              { label: "Default Style", value: "" },
+              { label: "Author Style", value: "style-author" },
+            ]}
+            onChange={(newStyle) => setAttributes({ styleName: newStyle })}
+          />
 
-					<div class="dsb-terms-checkbox-wrap">
-						{termList
-							? (termList.map((v) => {
-								return (
+          <SelectControl
+            label="Taxonomy Name"
+            value={taxname}
+            options={[
+              { label: "Select Taxonomy", value: "" },
+              { label: "Authors", value: "avli_books_author" },
+              { label: "Languages", value: "avli_books_language" },
+              { label: "Subjects", value: "avli_books_subject" },
+              { label: "Tags", value: "book_tag" },
+            ]}
+            onChange={onChangeTax}
+          />
 
-									<CheckboxControl
-										label={v.name}
-										checked={checkIfchecked(v.id)}
-										onChange={() => {
-											addTerm(v.id);
-											setAttributes({
-												update: !update
-											});
-										}}
-									/>
-
-								);
-							})
-							) : null}
-					</div>
-				</PanelBody>
-			</InspectorControls>
-			<div {...blockProps}>
-				<ServerSideRender
-					block="terms/super-blocks"
-					attributes={{
-						taxname: taxname,
-						terms: terms,
-						update: update,
-						heading: heading,
-						showHeading: showHeading
-					}}
-				/>
-			</div>
-		</>
-	);
+          <div class="dsb-terms-checkbox-wrap">
+            {termList
+              ? termList.map((v) => {
+                  return (
+                    <CheckboxControl
+                      label={v.name}
+                      checked={checkIfchecked(v.id)}
+                      onChange={() => {
+                        addTerm(v.id);
+                        setAttributes({
+                          update: !update,
+                        });
+                      }}
+                    />
+                  );
+                })
+              : null}
+          </div>
+        </PanelBody>
+      </InspectorControls>
+      <div {...blockProps}>
+        <ServerSideRender
+          block="terms/super-blocks"
+          attributes={{
+            taxname: taxname,
+            terms: terms,
+            update: update,
+            heading: heading,
+            showHeading: showHeading,
+            showImage: showImage,
+            styleName: styleName,
+            viewAllLink: viewAllLink,
+          }}
+        />
+      </div>
+    </>
+  );
 }
